@@ -14,6 +14,14 @@
             }
         }
     </style>
+    <style>
+    @media (max-width: 576px) {
+        .btn-outline-primary {
+            flex: 1 1 45%; /* Two buttons per row */
+        }
+    }
+</style>
+
 </head>
 <body class="bg-light">
  <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
@@ -56,41 +64,17 @@
             {{ form.hidden_tag() }}
 
             <!-- Category Selection -->
+                       <!-- Category Selection -->
             <div class="mb-3">
                 <label class="form-label">Select Category:</label>
-                <div class="btn-group" role="group">
-                    <input type="radio" class="btn-check" name="category" id="Lebensmittel" value="Lebensmittel">
-                    <label class="btn btn-outline-primary" for="Lebensmittel">Lebensmittel</label>
-
-                    <input type="radio" class="btn-check" name="category" id="Miete" value="Miete">
-                    <label class="btn btn-outline-primary" for="Miete">Miete</label>
-
-                    <input type="radio" class="btn-check" name="category" id="Versicherungen" value="Versicherungen">
-                    <label class="btn btn-outline-primary" for="Versicherungen">Versicherungen</label>
-
-                     <input type="radio" class="btn-check" name="category" id="Freizeit" value="Freizeit">
-                    <label class="btn btn-outline-primary" for="Freizeit">Freizeit</label>
-
-                    <input type="radio" class="btn-check" name="category" id="Reisen" value="Reisen">
-                    <label class="btn btn-outline-primary" for="Reisen">Reisen</label>
-
-                    <input type="radio" class="btn-check" name="category" id="Gesundheit" value="Gesundheit">
-                    <label class="btn btn-outline-primary" for="Gesundheit">Gesundheit</label>
-
-                    <input type="radio" class="btn-check" name="category" id="Transport" value="Transport">
-                    <label class="btn btn-outline-primary" for="Transport">Transport</label>
-
-                    <input type="radio" class="btn-check" name="category" id="Haushalt" value="Haushalt">
-                    <label class="btn btn-outline-primary" for="Haushalt">Haushalt</label>
-
-                    <input type="radio" class="btn-check" name="category" id="Bildung" value="Bildung">
-                    <label class="btn btn-outline-primary" for="Bildung">Bildung</label>
-
-                    <input type="radio" class="btn-check" name="category" id="Sonstiges" value="Sonstiges">
-                    <label class="btn btn-outline-primary" for="Sonstiges">Sonstiges</label>
-
+                <div class="d-flex flex-wrap gap-2">
+                    {% for cat in ['Lebensmittel', 'Miete', 'Versicherungen', 'Freizeit', 'Reisen', 'Gesundheit', 'Transport', 'Haushalt', 'Bildung', 'Sonstiges'] %}
+                        <input type="radio" class="btn-check" name="category" id="{{ cat }}" value="{{ cat }}">
+                        <label class="btn btn-outline-primary" for="{{ cat }}">{{ cat }}</label>
+                    {% endfor %}
                 </div>
             </div>
+
 
             <!-- Expense/Inflow Selection -->
             <div class="mb-3">
