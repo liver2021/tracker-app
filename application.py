@@ -8,8 +8,17 @@ from datetime import datetime
 import csv
 from io import StringIO
 from collections import defaultdict
+from werkzeug.middleware.proxy_fix import ProxyFix
+
 
 application = Flask(__name__)
+application.wsgi_app = ProxyFix(application.wsgi_app, x_proto=1, x_host=1)
+
+@application.before_request
+def redirect_to_canonical():
+    if request.host != "www.oliverklatttustanowski.com":
+        return redirect(f"http://www.oliverklatttustanowski.com{request.full_path}", code=301)
+
 application.config["SECRET_KEY"] = "your-secret-key"
 """
 def get_secret():
