@@ -8,7 +8,6 @@ from datetime import datetime
 import csv
 from io import StringIO
 from collections import defaultdict
-from werkzeug.middleware.proxy_fix import ProxyFix
 
 
 application = Flask(__name__)
