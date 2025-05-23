@@ -12,21 +12,7 @@ from werkzeug.middleware.proxy_fix import ProxyFix
 
 
 application = Flask(__name__)
-application.wsgi_app = ProxyFix(application.wsgi_app, x_proto=1, x_host=1)
 
-
-@application.before_request
-def redirect_to_canonical():
-    # Allow static files, favicon, etc. without redirect
-    if request.path.startswith("/static") or request.path.endswith(".ico"):
-        return
-
-    # Use forwarded host (important on AWS with load balancer)
-    forwarded_host = request.headers.get("X-Forwarded-Host", request.host)
-
-    # Redirect to canonical domain
-    if forwarded_host != "www.oliverklatttustanowski.com":
-        return redirect(f"http://www.oliverklatttustanowski.com{request.full_path}", code=301)
 
 
 application.config["SECRET_KEY"] = "your-secret-key"
