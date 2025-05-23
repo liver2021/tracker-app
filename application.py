@@ -8,11 +8,20 @@ from datetime import datetime
 import csv
 from io import StringIO
 from collections import defaultdict
+from werkzeug.middleware.proxy_fix import ProxyFix
 
 
 application = Flask(__name__)
+application.wsgi_app = ProxyFix(application.wsgi_app, x_proto=1, x_host=1)
 
-
+@application.before_request
+def redirect_to_canonical():
+    if request.path.startswith("/static") or request.path.endswith(".ico"):
+        return  # nicht weiterleiten
+    if not request.host.startswith("http://tracker-app-env.eba-c2hyexya.eu-west-1.elasticbeanstalk.com/"):
+        target_url = f"http://tracker-app-env.eba-c2hyexya.eu-west-1.elasticbeanstalk.com/{request.full_path}"
+        if request.url != target_url:
+            return redirect(target_url, code=301)
 
 application.config["SECRET_KEY"] = "your-secret-key"
 """
