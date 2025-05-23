@@ -16,9 +16,9 @@ application.wsgi_app = ProxyFix(application.wsgi_app, x_proto=1, x_host=1)
 
 @application.before_request
 def redirect_to_canonical():
-    # Akzeptiere auch ohne www (optional: passe das an deine Wünsche an)
+    if request.path.startswith("/static") or request.path.endswith(".ico"):
+        return  # nicht weiterleiten
     if not request.host.startswith("www.oliverklatttustanowski.com"):
-        # Behebt mögliche Endlosschleifen bei Elastic Beanstalk
         target_url = f"http://www.oliverklatttustanowski.com{request.full_path}"
         if request.url != target_url:
             return redirect(target_url, code=301)
